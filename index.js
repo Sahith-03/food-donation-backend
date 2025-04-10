@@ -12,14 +12,14 @@ const app = express();
 app.use(bodyParser.json({ limit: '30mb', extended: true }));
 app.use(cors());
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     res.send('Hello World!');
 });
 
-app.use('/', authRoutes);
-app.use('/', foodDonationRoutes);
-app.use('/', allFoodRoutes);
-app.use('/', userRoutes);
+app.use('/api', authRoutes);
+app.use('/api', foodDonationRoutes);
+app.use('/api', allFoodRoutes);
+app.use('/api', userRoutes);
 
 connectDB();
 
