@@ -8,7 +8,9 @@ const router = Router();
 // Route to handle food donation form submission
 router.post("/fooddonation", async (req, res) => {
     try {
+        console.log("Received form data:", req.body.formData);
         const { foodName, foodTag, quantity, expiryDate, address, email } = req.body.formData;
+
 
         const user = await User.findOne({ email });
 
@@ -27,6 +29,23 @@ router.post("/fooddonation", async (req, res) => {
         user.food.push(food._id);
 
         res.status(201).json(food);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server Error" });
+    }
+});
+
+router.delete("/fooddonation/:id", async (req, res) => {
+    try {
+        const foodId = req.params.id;
+        const food = await Food.findById(foodId);
+
+        if (!food) {
+            return res.status(404).json({ message: "Food donation not found" });
+        }
+
+        await food.remove();
+        res.status(200).json({ message: "Food donation deleted successfully" });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server Error" });
