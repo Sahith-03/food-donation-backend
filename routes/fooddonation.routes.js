@@ -38,13 +38,12 @@ router.post("/fooddonation", async (req, res) => {
 router.delete("/fooddonation/:id", async (req, res) => {
     try {
         const foodId = req.params.id;
-        const food = await Food.findById(foodId);
+        const food = await Food.findByIdAndDelete(foodId);
 
         if (!food) {
             return res.status(404).json({ message: "Food donation not found" });
         }
 
-        await food.remove();
         res.status(200).json({ message: "Food donation deleted successfully" });
     } catch (error) {
         console.error(error);
